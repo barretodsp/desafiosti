@@ -5,6 +5,7 @@
  */
 package desafiostimail;
 
+import Classes.Mensagem;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.Scanner;
@@ -21,7 +22,8 @@ public class DesafioStiMail {
      */
     public static void main(String[] args) throws FileNotFoundException, IOException {
         
-            
+            Mensagem.boasVindas();
+
             String matricula = JOptionPane.showInputDialog("Digite a sua matrícula:");
             System.out.println(matricula);
             
