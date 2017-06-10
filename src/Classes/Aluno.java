@@ -11,12 +11,12 @@ package Classes;
  */
 public class Aluno {
     
-    String nome;
-    String matricula;
-    String telefone;
-    String email;
-    String uffmail;
-    String status;
+   private String nome;
+   private String matricula;
+   private String telefone;
+   private String email;
+   private String uffmail;
+   private String status;
 
     public String getNome() {
         return nome;

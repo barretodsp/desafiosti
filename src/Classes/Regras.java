@@ -6,8 +6,10 @@
 package Classes;
 
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -20,15 +22,33 @@ import java.util.List;
  */
 public class Regras {
     
-    // Não esquecer de registrar o novo método de sugestão de email ao método geraSugestoes;
-
-public static Aluno buscaAluno(String matricula) throws FileNotFoundException, IOException{
+    /* Alguns comentários Gerais: 
+    Métodos existentes:
+        - buscaAluno(String matricula);
+        - geraSugestoes(String nome);
+        - verificaPreposicao(String palavra);
+        - sugestaoUm(String nome);
+        - sugestaoDois(String nome);
+        - sugestaoTres(String nome);
+        - sugestaoQuatro(String nome);
+        - sugestaoCinco(String nome);
+ 
+    1- Não esquecer de registrar o novo método de sugestão de email ao método geraSugestoes;
     
+    */
+    
+public static Aluno buscaAluno(String matricula) throws FileNotFoundException, IOException{
+    /*
+    Busca um aluno na base de dados atraves da matricula.
+    */
+
         BufferedReader br = new BufferedReader(new FileReader("./entrada.csv"));
         String registro;
         int achei = 1 ;
         String[] linha = null;
         Aluno aluno = null;
+        registro = br.readLine();// passa da primeira linha (cabeçalho) do csv.
+        registro=null;
         
         while (((registro = br.readLine()) != null) && (achei == 1)){
 
@@ -48,15 +68,15 @@ public static Aluno buscaAluno(String matricula) throws FileNotFoundException, I
             aluno.setStatus(linha[5]);
             
         }
-        
+        br.close();
         return aluno;
         
     }
+
+public static int verificaPreposicao(String palavra){
     /*
     Verifica se a palavra fornecida é uma preposição ou não.
-    */
-    public static int verificaPreposicao(String palavra){
-       
+    */   
         int resultado = 1;
         switch (palavra) {
 
@@ -82,28 +102,29 @@ public static Aluno buscaAluno(String matricula) throws FileNotFoundException, I
        return resultado; 
         
     }
-    
-    
-    /*
+   
+public static String sugestaoUm(String nome){
+     /*
     Método: sugestaoUm(String nome)
     
     Esta regra cria a sugestão do tipo FIRSTNAME_LASTNAME@id.uff.br 
     Pega o primeiro e o último nome e coloca entre "_";
     Ex: nome: Patrick Barreto dos Santos
     uffmail: patrick_santos@id.uff.br
-    */
-    public static String sugestaoUm(String nome){
-        String[] s = nome.split(" ");
-        int tam = s.length;
-        
+    */  
+    
+    
+    String[] s = nome.split(" ");
+    int tam = s.length;
+       
         String email = s[0]+"_"+s[tam-1]+"@id.uff.br";
         
       
         return email.toLowerCase();
     }
-    
-    
-    /*
+   
+public static String sugestaoDois(String nome){
+     /*
     Método: sugestaoDois(String nome)
     
     Cria a sugestão com a primeira letra do primeiro nome +
@@ -111,8 +132,9 @@ public static Aluno buscaAluno(String matricula) throws FileNotFoundException, I
     Ex: nome: Patrick Barreto dos Santos
     uffmail: pbarreto@id.uff.br
                             
-    */
-    public static String sugestaoDois(String nome){
+    */  
+    
+    
         String email;
         String[] s = nome.split(" ");
         String letra = s[0].substring(0, 1);
@@ -127,18 +149,16 @@ public static Aluno buscaAluno(String matricula) throws FileNotFoundException, I
         return email.toLowerCase();
     }
 
+public static String sugestaoTres(String nome){
     
-    
-    /*
+ /*
     Método: sugestaoTrês(String nome)
     
     Cria a sugestão com o nome e primeiro sobrenome.
     Ex: nome: Patrick Barreto dos Santos
     uffmail: patrickbarreto@id.uff.br
                             
-    */
-    public static String sugestaoTres(String nome){
-        
+    */    
         String email;
         String[] s = nome.split(" ");
         
@@ -152,9 +172,10 @@ public static Aluno buscaAluno(String matricula) throws FileNotFoundException, I
         return email.toLowerCase();
         
     }
+
+public static String sugestaoQuatro(String nome){
     
-    
-    /*
+/*
     
     Método: sugestaoQuatro(String nome)
     
@@ -176,8 +197,7 @@ public static Aluno buscaAluno(String matricula) throws FileNotFoundException, I
     uffmail: mariads@id.uff.br
     
     */
-    public static String sugestaoQuatro(String nome){
-        
+    
         String email = null;
         String[] s = nome.split(" ");
         int r = Regras.verificaPreposicao(s[1]);
@@ -205,7 +225,8 @@ public static Aluno buscaAluno(String matricula) throws FileNotFoundException, I
         return email.toLowerCase();
     }
 
-    /*
+public static String sugestaoCinco(String nome){
+     /*
     Método: sugestaoCinco(String nome)
     
     Cria a sugestão com a letra do primeiro nome mais os dois sobrenomes seguintes.
@@ -225,9 +246,8 @@ public static Aluno buscaAluno(String matricula) throws FileNotFoundException, I
     Ex: Maria da Silva.
     uffmail: mdosreis@id.uff.br
     
-    */
-    public static String sugestaoCinco(String nome){
-        
+    */    
+       
         String email = null;
         String[] s = nome.split(" ");
         String letraNome = s[0].substring(0, 1);
@@ -251,8 +271,7 @@ public static Aluno buscaAluno(String matricula) throws FileNotFoundException, I
         
     }
     
-    
-    public static List geraSugestoes(String nome){
+public static List geraSugestoes(String nome){
         
       //Tipo Lista escolhido porque gera maior flexibilidade quanto ao nº de sugestões fornecidas;
         List<String> sugestoes = new ArrayList<String>();
