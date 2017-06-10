@@ -27,23 +27,35 @@ public class DesafioStiMail {
         
             Mensagem.boasVindas();
 
-            String matricula = JOptionPane.showInputDialog("Digite a sua matrícula:");
+            String matricula = JOptionPane.showInputDialog("Por favor, digite a sua matrícula:");
             System.out.println(matricula);
             	
-            Aluno aluno = Regras.validaAluno(matricula);
-            //criar regra para validar status e se o aluno já possui uffmail;
-            //comentar o código;
-            
-            List sugestoes = Regras.geraSugestoes(aluno.getNome());
-            
-            Mensagem.escolha(sugestoes, aluno.getNome());
-            
-            Scanner sc = new Scanner(System.in);
-            int escolha = Integer.parseInt(sc.nextLine());
-            
-            Mensagem.pedidoUffMailGerado((String) sugestoes.get(escolha-1));
-            Mensagem.senhaSMS(aluno.getTelefone());
-            
+            Aluno aluno = Regras.buscaAluno(matricula);
 
+            if(aluno !=null){ // caso o aluno exista, verifica o seu Statius.
+                if(aluno.getStatus().equals("Ativo")){ // Se ativo
+
+                    List sugestoes = Regras.geraSugestoes(aluno.getNome());
+                  
+                    Mensagem.escolha(sugestoes, aluno.getNome());
+                    
+                    Scanner sc = new Scanner(System.in);
+                    int escolha = Integer.parseInt(sc.nextLine());
+                    
+                    // Este while trata a escolha do nº de opção.
+                    while((escolha < 1) || (escolha > sugestoes.size()) ){
+                        Mensagem.correcaoEscolha(sugestoes.size());
+                        escolha = Integer.parseInt(sc.nextLine());
+                    }
+                    
+                    Mensagem.pedidoUffMailGerado((String) sugestoes.get(escolha-1));
+                    Mensagem.senhaSMS(aluno.getTelefone());
+                
+                }else                   // Se inativo
+                    Mensagem.alunoInativo();
+            
+            }else // Caso a matrícula não existe.
+                Mensagem.alunoInexistente();
     }
+
 }
