@@ -25,10 +25,12 @@ public class DesafioStiMail {
      */
     public static void main(String[] args) throws FileNotFoundException, IOException {
         
-            Mensagem.boasVindas();
 
+            Mensagem.geraMensagem(0, "");
+        
             String matricula = JOptionPane.showInputDialog("Por favor, digite a sua matrícula:");
-            System.out.println(matricula);
+            
+            Mensagem.geraMensagem(-1, matricula);
             	
             Aluno aluno = Regras.buscaAluno(matricula);
 
@@ -44,18 +46,18 @@ public class DesafioStiMail {
                     
                     // Este while trata a escolha do nº de opção.
                     while((escolha < 1) || (escolha > sugestoes.size()) ){
-                        Mensagem.correcaoEscolha(sugestoes.size());
+                        Mensagem.geraMensagem(5, sugestoes.size());
                         escolha = Integer.parseInt(sc.nextLine());
                     }
-                    
-                    Mensagem.pedidoUffMailGerado((String) sugestoes.get(escolha-1));
-                    Mensagem.senhaSMS(aluno.getTelefone());
-                
-                }else                   // Se inativo
-                    Mensagem.alunoInativo();
+                    // Mensagem para finalizar a solicitação UFF Mail e SMS.
+                    Mensagem.geraMensagem(4, (String) sugestoes.get(escolha-1));
+                    Mensagem.geraMensagem(3, aluno.getTelefone());
+
+                }else // Caso matricula inativa.
+                    Mensagem.geraMensagem(2, "");
             
-            }else // Caso a matrícula não existe.
-                Mensagem.alunoInexistente();
+            }else // Caso a matrícula não exista.
+                Mensagem.geraMensagem(1, "");
     }
 
 }
